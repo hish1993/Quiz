@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 12, 2021 at 07:17 AM
+-- Generation Time: May 18, 2021 at 03:12 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -27,8 +27,6 @@ SET time_zone = "+00:00";
 -- Table structure for table `quiztable`
 --
 
-CREATE DATABASE quiz;
-
 CREATE TABLE `quiztable` (
   `id` int(11) NOT NULL,
   `question` varchar(200) NOT NULL,
@@ -43,6 +41,27 @@ INSERT INTO `quiztable` (`id`, `question`, `answer`) VALUES
 (1, 'What is the capital of India?', 'New Delhi'),
 (2, 'What is the capital of England?', 'London');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `username` varchar(25) NOT NULL,
+  `password` varchar(50) NOT NULL,
+  `online` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `password`, `online`) VALUES
+(1, 'Hish', '12345', 1),
+(2, 'Vaibhav', '12345', 1);
+
 --
 -- Indexes for dumped tables
 --
@@ -54,6 +73,12 @@ ALTER TABLE `quiztable`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -61,6 +86,12 @@ ALTER TABLE `quiztable`
 -- AUTO_INCREMENT for table `quiztable`
 --
 ALTER TABLE `quiztable`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
