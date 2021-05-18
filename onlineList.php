@@ -12,22 +12,18 @@ $sql = "SELECT * FROM users WHERE username != '$user'";
 $result = mysqli_query($conn, $sql);
 ?>
 
-<form method = "POST">
-
-<select name = "targetUser" required>
 <?php
+echo "<select id = 'targetUser'>";
 while ($row = mysqli_fetch_array($result)) {
-?>
-<option value = "<?php Print $row['username'];?>"><?php Print $row['username'];?></option>
-<?php
-};
-?>
-</select>
 
-<input type = "datetime-local" name = "dateofquiz" required>
-<button type = "submit" name = "submit">Submit</button>
+	echo "<option value = ".$row['username'].">".$row['username']."</option>";
 
-</form>
+}
+
+echo "</select>";
+echo "<input type = 'datetime-local' id = 'dateofquiz'>";
+echo "<button type = 'submit' onclick = 'submitChallenge(&quot;".$user."&quot;)'>Submit</button>";
+?>
 
 
 <div id = "challengeRequests">
@@ -35,32 +31,25 @@ while ($row = mysqli_fetch_array($result)) {
 $sql = "SELECT * FROM challenge WHERE active = 1 AND target_user = '$user'";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_array($result)){
-	echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge(".$row['request_id'].")'>Accept Challenge</button></p>";
+	echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge('".$row['request_id']."')'>Accept Challenge</button></p>";
 }
 ?>
 </div>
-
-<?php
-if (isset ($_POST['submit'])){
-	$targetUser = $_POST['targetUser'];
-	$dateofquiz = $_POST['dateofquiz'];
-
-	$sql = "INSERT INTO challenge (origin_user, target_user, date_of_quiz, active) VALUES ('$user', '$targetUser', '$dateofquiz', 1)";
-	if (mysqli_query($conn, $sql)){
-		echo "Challenge Submitted.";
-	}else{
-		echo mysqli_error($conn);
-	}
-}
-?>
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 
 <script>
 
+function submitChallenge(user){
+	var targetUser = $('#targetUser').val()
+	$.get("submitChallenge.php",{origin_user: user, target_user: $('#targetUser').val(), date_of_quiz: $('#dateofquiz').val()}, function (output){
+		$('#challengeRequests').append(output)
+	})
+}
+
 function acceptChallenge(id){
-	$.get("sendChallenge.php", {request_id:id}, function(data){
+	$.get("acceptChallenge.php", {request_id:id}, function(data){
 		console.log(data)
 	})
 	window.location.href = "onlineList.php";
