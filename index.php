@@ -21,7 +21,7 @@ if (isset($_POST['login'])){
 	$password = $_POST['password'];
 
 
-$conn = mysqli_connect("localhost", "root", "", "quiz");
+include "connect.php";
 
 $sql = "SELECT * FROM users WHERE username = '$username' ";
 
@@ -37,7 +37,7 @@ if ($password_db == $password){
 	$sql = "UPDATE users SET online = 1 WHERE username = '$username'";
 	$result = mysqli_query($conn, $sql);
 	$row = mysqli_fetch_assoc($result);
-	header("LOCATION: quiz.php");
+	header("LOCATION: onlineList.php");
 }
 
 }

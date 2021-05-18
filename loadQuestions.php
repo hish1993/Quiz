@@ -1,6 +1,6 @@
 <?php
 
-$conn = mysqli_connect("localhost", "root", "", "quiz");
+include "connect.php";
 
 $sql = 'SELECT * FROM `quiztable`';
 $result = mysqli_query($conn, $sql);

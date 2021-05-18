@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2021 at 03:12 PM
+-- Generation Time: May 18, 2021 at 08:07 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -20,6 +20,37 @@ SET time_zone = "+00:00";
 --
 -- Database: `quiz`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `challenge`
+--
+
+CREATE TABLE `challenge` (
+  `origin_user` varchar(50) NOT NULL,
+  `target_user` varchar(50) NOT NULL,
+  `date_of_quiz` datetime NOT NULL,
+  `request_id` int(10) NOT NULL,
+  `active` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `challenge`
+--
+
+INSERT INTO `challenge` (`origin_user`, `target_user`, `date_of_quiz`, `request_id`, `active`) VALUES
+('Hish', 'Vaibhav', '2021-05-18 18:36:00', 26, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:36:00', 27, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:36:00', 28, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:36:00', 29, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:36:00', 30, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:43:00', 31, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:44:00', 32, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:44:00', 33, 0),
+('Hish', 'Vaibhav', '2021-05-18 18:44:00', 34, 0),
+('Hish', 'Vaibhav', '2021-05-18 19:03:00', 35, 0),
+('Hish', 'Vaibhav', '2021-05-18 19:05:00', 36, 0);
 
 -- --------------------------------------------------------
 
@@ -67,6 +98,12 @@ INSERT INTO `users` (`id`, `username`, `password`, `online`) VALUES
 --
 
 --
+-- Indexes for table `challenge`
+--
+ALTER TABLE `challenge`
+  ADD PRIMARY KEY (`request_id`);
+
+--
 -- Indexes for table `quiztable`
 --
 ALTER TABLE `quiztable`
@@ -81,6 +118,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `challenge`
+--
+ALTER TABLE `challenge`
+  MODIFY `request_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `quiztable`

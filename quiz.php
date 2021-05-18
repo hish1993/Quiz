@@ -21,11 +21,6 @@ if ($_SESSION['user'] == NULL){
 </head>
 <body>
 
-	<div id = "OnlineList">
-		<h3>Users Online</h3>
-
-	</div>
-
 	<div id = "QuestionContainer">
 		<h1 id = "score">Score = 0</h1>
 		<p id = "QuestionText"></p>
@@ -41,7 +36,6 @@ if ($_SESSION['user'] == NULL){
 <script>
 	var score = 0;
 	var Data
-	var OnlineList
 	var Id;
 	var User
 
@@ -54,27 +48,12 @@ if ($_SESSION['user'] == NULL){
 		}
 	})
 
-	$.ajax({
-		type: "GET",
-		url: "getOnlineList.php",
-		success: function (data) {
-			OnlineList = JSON.parse("["+data.substring(0,data.length-1)+"]")
-			loadOnlineList()
-		}
-	})
 
 	function loadQuestion(){
 		Id = Math.floor(Math.random()*Data.length)
 		$("#QuestionText").html((Data[Id]["question"]))
 	}
 
-	function loadOnlineList(){
-		for (var i = 0; i<OnlineList.length; i++){
-			if (OnlineList[i]["online"] == 1 && OnlineList[i]["username"] != "<?php Print($_SESSION['user']); ?>"){
-				$("#OnlineList").append("<li><p>"+OnlineList[i]["username"]+"</p></li>")
-			}
-		}
-	}
 
 	function checkAnswer(){
 		if ($("#input").val() == Data[Id]["answer"]){
