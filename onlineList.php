@@ -31,7 +31,7 @@ echo "<button type = 'submit' onclick = 'submitChallenge(&quot;".$user."&quot;)'
 $sql = "SELECT * FROM challenge WHERE active = 1 AND target_user = '$user'";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_array($result)){
-	echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge('".$row['request_id']."')'>Accept Challenge</button></p>";
+	echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge(&quot;".$row['request_id']."&quot;)'>Accept Challenge</button></p>";
 }
 ?>
 </div>
