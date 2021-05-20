@@ -28,12 +28,20 @@ echo "<button type = 'submit' onclick = 'submitChallenge(&quot;".$user."&quot;)'
 
 <div id = "challengeRequests">
 <?php
-$sql = "SELECT * FROM challenge WHERE active = 1 AND target_user = '$user'";
+$sql = "SELECT * FROM challenge";
 $result = mysqli_query($conn, $sql);
-while ($row = mysqli_fetch_array($result)){
-	echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge(&quot;".$row['request_id']."&quot;)'>Accept Challenge</button></p>";
+while ($row = mysqli_fetch_array($result)){   
+
+	if ($row['accepted'] == 0 && $row['target_user'] == $user && new DateTime($row['date_of_quiz']) > new DateTime("now")){
+		echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge(&quot;".$row['request_id']."&quot;)'>Accept Challenge</button></p>";
+	}
 }
 ?>
+
+<div id="feed">
+
+</div>
+
 </div>
 
 
@@ -41,10 +49,12 @@ while ($row = mysqli_fetch_array($result)){
 
 <script>
 
+var upcomingMatches
+
 function submitChallenge(user){
 	var targetUser = $('#targetUser').val()
 	$.get("submitChallenge.php",{origin_user: user, target_user: $('#targetUser').val(), date_of_quiz: $('#dateofquiz').val()}, function (output){
-		$('#challengeRequests').append(output)
+		$('#feed').append(output)
 	})
 }
 
@@ -54,6 +64,38 @@ function acceptChallenge(id){
 	})
 	window.location.href = "onlineList.php";
 }
+
+function loadUpcomingMatches(){
+
+	function millisecondsToDaysHoursMinsSeconds(ms){
+    days = Math.floor(ms / (24*60*60*1000));
+    daysms=ms % (24*60*60*1000);
+    hours = Math.floor((daysms)/(60*60*1000));
+    hoursms=ms % (60*60*1000);
+    minutes = Math.floor((hoursms)/(60*1000));
+    minutesms=ms % (60*1000);
+    sec = Math.floor((minutesms)/(1000));
+    return days+" days "+hours+" hours "+minutes+" mins "+sec+" secs";
+}
+
+	for (var i = 0; i<upcomingMatches.length; i++){
+		var now = new Date();
+		var datetimeOfQuiz = new Date(upcomingMatches[i]["date_of_quiz"]);
+		var difference = datetimeOfQuiz - now
+		if (difference>0){
+			$("#feed").append("<p>The match with "+upcomingMatches[i]["target_user"]+ " starts in "+ millisecondsToDaysHoursMinsSeconds(difference)+"</p>")
+		}
+	}
+}
+
+	$.ajax({
+		type: "GET",
+		url: "loadUpcomingMatches.php",
+		success: function (data) {
+			upcomingMatches = JSON.parse("["+data.substring(0,data.length-1)+"]")
+			loadUpcomingMatches()		
+		}
+	})
 </script>
 
 <?php
