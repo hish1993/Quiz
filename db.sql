@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2021 at 08:07 PM
+-- Generation Time: May 20, 2021 at 04:07 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -32,25 +32,25 @@ CREATE TABLE `challenge` (
   `target_user` varchar(50) NOT NULL,
   `date_of_quiz` datetime NOT NULL,
   `request_id` int(10) NOT NULL,
-  `active` int(11) NOT NULL
+  `accepted` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `challenge`
 --
 
-INSERT INTO `challenge` (`origin_user`, `target_user`, `date_of_quiz`, `request_id`, `active`) VALUES
-('Hish', 'Vaibhav', '2021-05-18 18:36:00', 26, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:36:00', 27, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:36:00', 28, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:36:00', 29, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:36:00', 30, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:43:00', 31, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:44:00', 32, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:44:00', 33, 0),
-('Hish', 'Vaibhav', '2021-05-18 18:44:00', 34, 0),
-('Hish', 'Vaibhav', '2021-05-18 19:03:00', 35, 0),
-('Hish', 'Vaibhav', '2021-05-18 19:05:00', 36, 0);
+INSERT INTO `challenge` (`origin_user`, `target_user`, `date_of_quiz`, `request_id`, `accepted`) VALUES
+('Vaibhav', 'Hish', '2021-05-20 03:42:00', 124, 1),
+('Vaibhav', 'Hish', '2021-05-28 03:42:00', 125, 1),
+('Vaibhav', 'Hish', '2021-05-20 02:44:00', 126, 1),
+('Vaibhav', 'Hish', '2021-05-20 02:46:00', 127, 1),
+('Vaibhav', 'Hish', '2021-05-28 02:51:00', 128, 1),
+('Hish', 'Vaibhav', '2021-05-20 02:52:00', 129, 1),
+('Hish', 'Vaibhav', '2021-05-20 02:47:00', 130, 1),
+('Hish', 'Vaibhav', '2021-05-20 02:37:00', 131, 1),
+('Vaibhav', 'Hish', '2021-05-20 07:06:00', 132, 1),
+('Hish', 'Vaibhav', '2021-05-20 08:02:00', 133, 1),
+('Hish', 'Vaibhav', '2021-05-13 08:02:00', 134, 0);
 
 -- --------------------------------------------------------
 
@@ -123,7 +123,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `challenge`
 --
 ALTER TABLE `challenge`
-  MODIFY `request_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `request_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
 
 --
 -- AUTO_INCREMENT for table `quiztable`
