@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Europe/London');
 session_start();
 if ($_SESSION['user'] == NULL){
 	header("Location: index.php");
@@ -28,15 +29,21 @@ echo "<button type = 'submit' onclick = 'submitChallenge(&quot;".$user."&quot;)'
 
 <div id = "challengeRequests">
 <?php
+
+
 $sql = "SELECT * FROM challenge";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_array($result)){   
 
 	if ($row['accepted'] == 0 && $row['target_user'] == $user && new DateTime($row['date_of_quiz']) > new DateTime("now")){
 		echo "<p>".$row['target_user']."&emsp;<button id = 'acceptChallenge' onclick = 'acceptChallenge(&quot;".$row['request_id']."&quot;)'>Accept Challenge</button></p>";
+
 	}
 }
 ?>
+
+<div id = "challengeAcceptFeed">
+</div>
 
 <div id="feed">
 
@@ -54,7 +61,7 @@ var upcomingMatches
 function submitChallenge(user){
 	var targetUser = $('#targetUser').val()
 	$.get("submitChallenge.php",{origin_user: user, target_user: $('#targetUser').val(), date_of_quiz: $('#dateofquiz').val()}, function (output){
-		$('#feed').append(output)
+		$('#challengeAcceptFeed').append(output)
 	})
 }
 
@@ -78,15 +85,24 @@ function loadUpcomingMatches(){
     return days+" days "+hours+" hours "+minutes+" mins "+sec+" secs";
 }
 
-	for (var i = 0; i<upcomingMatches.length; i++){
+var x = setInterval(function(){
+	for (var i = 0; i<upcomingMatches.length; i++){ 
 		var now = new Date();
 		var datetimeOfQuiz = new Date(upcomingMatches[i]["date_of_quiz"]);
 		var difference = datetimeOfQuiz - now
+		console.log(upcomingMatches);
+		if (difference ==0){
+			window.location.href = "quiz.php";
+		}
 		if (difference>0){
-			$("#feed").append("<p>The match with "+upcomingMatches[i]["target_user"]+ " starts in "+ millisecondsToDaysHoursMinsSeconds(difference)+"</p>")
+			$("#feed").html("<p>The match with "+upcomingMatches[i]["target_user"]+ " starts in "+ millisecondsToDaysHoursMinsSeconds(difference)+"</p>")
+			break;
 		}
 	}
+},1000);
+
 }
+
 
 	$.ajax({
 		type: "GET",
@@ -96,6 +112,9 @@ function loadUpcomingMatches(){
 			loadUpcomingMatches()		
 		}
 	})
+
+
+	
 </script>
 
 <?php

@@ -1,7 +1,7 @@
 <?php
 
 	include "connect.php";
-
+	session_start();
 	$origin_user = $_GET['origin_user'];
 	$target_user = $_GET['target_user'];
 	$date_of_quiz = $_GET['date_of_quiz'];
