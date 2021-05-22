@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Europe/London');
 include "connect.php";
 session_start();
 $user = $_SESSION['user'];
@@ -9,7 +9,10 @@ $sql = "SELECT * FROM challenge WHERE accepted = 1 && (origin_user='$user' || ta
 $result = mysqli_query($conn, $sql);
 
 while ($row = mysqli_fetch_assoc($result)) {
-	echo json_encode($row).",";
+	if (new DateTime($row['date_of_quiz']) > new DateTime("now")){
+			echo json_encode($row).",";
+	}
+
 };
 
 

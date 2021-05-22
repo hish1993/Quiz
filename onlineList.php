@@ -90,11 +90,14 @@ var x = setInterval(function(){
 		var now = new Date();
 		var datetimeOfQuiz = new Date(upcomingMatches[i]["date_of_quiz"]);
 		var difference = datetimeOfQuiz - now
-		console.log(upcomingMatches);
-		if (difference ==0){
+
+		if (difference <=0){
 			window.location.href = "quiz.php";
-		}
+		 }
+		 
 		if (difference>0){
+
+					console.log(upcomingMatches);
 			$("#feed").html("<p>The match with "+upcomingMatches[i]["target_user"]+ " starts in "+ millisecondsToDaysHoursMinsSeconds(difference)+"</p>")
 			break;
 		}
