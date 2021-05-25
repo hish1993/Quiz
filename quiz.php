@@ -34,6 +34,7 @@ if ($_SESSION['user'] == NULL){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 
 <script>
+	var questionNumber = 1;
 	var score = 0;
 	var Data
 	var Id;
@@ -50,12 +51,14 @@ if ($_SESSION['user'] == NULL){
 
 
 	function loadQuestion(){
+		checkIfEndOfQuiz()
 		Id = Math.floor(Math.random()*Data.length)
-		$("#QuestionText").html((Data[Id]["question"]))
+		$("#QuestionText").html(questionNumber+ ". " +(Data[Id]["question"]))
 	}
 
 
 	function checkAnswer(){
+			questionNumber++;
 		if ($("#input").val() == Data[Id]["answer"]){
 			loadQuestion();
 			$("#input").val("")
@@ -66,6 +69,13 @@ if ($_SESSION['user'] == NULL){
 			$("#input").val("")
 			score = 0;
 			$("#score").text("Score = "+score)
+		}
+	}
+
+	function checkIfEndOfQuiz(){
+
+		if (questionNumber >10){
+			window.location.href = "onlineList.php"
 		}
 	}
 
