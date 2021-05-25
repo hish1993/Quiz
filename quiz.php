@@ -1,7 +1,27 @@
 <?php
 session_start();
+include "connect.php";
+$user = $_SESSION['user'];
+$game_valid = FALSE;
+
+
+	$sql = "SELECT * FROM challenge WHERE active = 1";
+	$result = mysqli_query($conn, $sql);
+	$row = mysqli_fetch_array($result);
+	echo "Game ID: #".$row['request_id'];
+
+	$origin_user = $row['origin_user'];
+	$target_user = $row['target_user'];
+
+	if ($origin_user == $user || $target_user == $user){
+		$game_valid = True;
+	}
+
+
 if ($_SESSION['user'] == NULL){
 	header("Location: index.php");
+}elseif($game_valid == FALSE){
+	header("Location: onlineList.php");
 }else{
 
 
@@ -34,6 +54,9 @@ if ($_SESSION['user'] == NULL){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous"></script>
 
 <script>
+
+	inactivateMatch();
+
 	var questionNumber = 1;
 	var score = 0;
 	var Data
@@ -73,11 +96,21 @@ if ($_SESSION['user'] == NULL){
 	}
 
 	function checkIfEndOfQuiz(){
-
 		if (questionNumber >10){
 			window.location.href = "onlineList.php"
 		}
 	}
+
+	function inactivateMatch(){
+		$.get("setActiveMatch.php", {request_id:<?php Print $row['request_id']; ?>, active_status:0}, function(data){
+			console.log(data)
+		})
+
+	}	
+
+	window.onbeforeunload = function() {
+	  return "Game will be lost if you leave the page, are you sure?";
+	};
 
 
 </script>

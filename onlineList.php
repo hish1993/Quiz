@@ -86,21 +86,27 @@ function loadUpcomingMatches(){
 }
 
 var x = setInterval(function(){
-	for (var i = 0; i<upcomingMatches.length; i++){ 
 		var now = new Date();
-		var datetimeOfQuiz = new Date(upcomingMatches[i]["date_of_quiz"]);
+		var datetimeOfQuiz = new Date(upcomingMatches[0]["date_of_quiz"]);
 		var difference = datetimeOfQuiz - now
 		console.log(upcomingMatches);
 		if (difference <=0){
+			activateMatch(upcomingMatches[0]['request_id'])
 
-			window.location.href = "quiz.php";
 		}
 		if (difference>0){
-			$("#feed").html("<p>The match with "+upcomingMatches[i]["target_user"]+ " starts in "+ millisecondsToDaysHoursMinsSeconds(difference)+"</p>")
-			break;
+			$("#feed").html("<p>The match with "+upcomingMatches[0]["target_user"]+ " starts in "+ millisecondsToDaysHoursMinsSeconds(difference)+"</p>")
+			
 		}
-	}
+	
 },1000);
+
+}
+
+function activateMatch(id){
+	$.get("setActiveMatch.php", {request_id:id, active_status:1}, function(data){
+		window.location.href = "quiz.php";
+	})
 
 }
 
